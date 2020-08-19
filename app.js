@@ -21,8 +21,11 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', (req, res) => {
     const title = 'Task List'
-    res.render('index', {
-        title
+    client.lrange('tasks', 0, -1, (err, reply) => {
+        res.render('index', {
+            title,
+            tasks: reply
+        })
     })
 })
 
