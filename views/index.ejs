@@ -6,8 +6,16 @@
 </form>
 
 <%= title %>
-<ul>
-    <% tasks.forEach((task) => { %>
-        <li><%= task %></li>
-    <% }) %>
-</ul>
+<form method="POST" action="/task/delete">
+    <ul>
+        <% tasks.forEach((task) => { %>
+            <li>
+                <label>
+                    <input type="checkbox" name="tasks" class="del" value="<%= task %>" />
+                    <span><%= task %></span>
+                </label>
+            </li>
+        <% }) %>
+    </ul>
+    <input type="submit" value="Remove" />
+</form>
