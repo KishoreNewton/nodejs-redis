@@ -6,6 +6,11 @@ const redis = require('redis')
 
 const app = express()
 
+const client = redis.createClient()
+client.on('connect', () => {
+    console.log('redis server connected')
+})
+
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
