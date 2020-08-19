@@ -15,7 +15,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', (req, res) => {
-    res.send('Welcome!')
+    const title = 'Task List'
+    res.render('index', {
+        title
+    })
 })
 
 app.listen(3000, () => {
