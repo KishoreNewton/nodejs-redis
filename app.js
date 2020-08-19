@@ -22,9 +22,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.get('/', (req, res) => {
     const title = 'Task List'
     client.lrange('tasks', 0, -1, (err, reply) => {
-        res.render('index', {
-            title,
-            tasks: reply
+        client.hgetall('call', (err, call) => {
+            res.render('index', {
+                title,
+                tasks: reply,
+                call
+            })
         })
     })
 })
@@ -48,6 +51,21 @@ app.post('/task/delete', (req, res) => {
                 })
             }
         }
+        res.redirect('/')
+    })
+})
+
+app.post('/call/add', (req, res) => {
+    let newCall = {}
+    const { name, company, phone, time } = req.body
+    newCall.name = name
+    newCall.company = company
+    newCall.phone = phone
+    newCall.time = time
+
+    client.hset('call', ['name', newCall.name, 'company', newCall.company, 'phone', newCall.phone, 'time', newCall.time], (err, reply) => {
+        if(err) throw new Error('Something went wrong')      
+        console.log(reply)
         res.redirect('/')
     })
 })
